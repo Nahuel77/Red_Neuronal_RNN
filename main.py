@@ -8,7 +8,8 @@ char2idx = {ch: i for i, ch in enumerate(chars)}
 idx2char = {i: ch for i, ch in enumerate(chars)}
 data = [char2idx[c] for c in text]
 
-#print(data)
+print(len(data))
+
 vocab_size = len(chars)#42
 seq_lenght = 10
 hidden_size = 64
@@ -56,7 +57,7 @@ def backward(xs, hs, ys, targets):
     dWxh, dWhh, dWhy = np.zeros_like(Wxh), np.zeros_like(Whh), np.zeros_like(Why)
     dbh, dby = np.zeros_like(bh), np.zeros_like(by)
     dh_next = np.zeros_like(hs[0])
-    
+
     for t in reversed(range(len(targets))):
         dy = softmax(ys[t])
         dy[targets[t]] -= 1
@@ -77,21 +78,21 @@ def backward(xs, hs, ys, targets):
 def train(data, n_epochs=1000, seq_length=10):
     h_prev = np.zeros((hidden_size, 1))
     pointer = 0
-    
+
     for epoch in range(n_epochs):
         #obtener inputs y targets
         if pointer + seq_length + 1 >= len(data):
             pointer = 0
             h_prev = np.zeros((hidden_size, 1))
-            
+
         inputs = data[pointer:pointer+seq_length]
         targets = data[pointer+1:pointer+seq_length+1]
-                       
-        xs, hs, ys = forward(inputs,h_prev)
-        loss = compute_loss(ys, targets)
-        
+
+        xs, hs, ys = forward(inputs, h_prev)#inputs es el estado pasado
+        loss = compute_loss(ys, targets)#como barajando naipes
+
         dWxh, dWhh, dWhy, dbh, dby = backward(xs, hs, ys, targets)
-        
+
         #actualizar pesos
         global Wxh, Whh, Why, bh, by
         Wxh -= learning_rate * dWxh
@@ -99,12 +100,12 @@ def train(data, n_epochs=1000, seq_length=10):
         Why -= learning_rate * dWhy
         bh -= learning_rate * dbh
         by -= learning_rate * dby
-        
+
         h_prev = hs[len(inputs)-1]
-        
+
         if epoch % 100 == 0:
             print(f"Epoch {epoch}, loss: {loss:.4f}")
-            
-        pointer += seq_lenght
-        
+
+        pointer += seq_length
+
 train(data)
