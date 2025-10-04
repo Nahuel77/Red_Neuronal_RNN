@@ -110,7 +110,11 @@ Sabemos por las reglas de multiplicacion de matrices que la salida de estas suma
 
 ![alt text](miscellaneous/image.png) ![alt text](miscellaneous/image-1.png)
 
-matriz(64x1) + matriz(64x1) + matriz(64x1) = matriz(64x1)
+Wxh * x => 64x42 * 42x1 = <p style="color: dodgerblue;">64x1</p>
+Whh * hs[t-1] => 64x64 * 64x1 = <p style="color: dodgerblue;">64x1</p>
+bh => <p style="color: dodgerblue;">64x1</p>
+<p style="color: dodgerblue;">matriz(64x1)</p> + <p style="color: dodgerblue;">matriz(64x1)</p> + <p style="color: dodgerblue;">matriz(64x1)</p> = <p style="color: dodgerblue;">matriz(64x1)</p>
+
 A ese resultado es al que se le aplicará la funcion tanh (tangente hiperbolica)
 
 Forward entonces retorna xs hs y ys.
