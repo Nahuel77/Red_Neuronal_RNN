@@ -109,12 +109,12 @@ Se sumaran la multiplicacion de Wxh con x, de Whh con hs[-1] y se le sumaran el 
 Sabemos por las reglas de multiplicacion de matrices que la salida de estas suma sera otra matriz de 64x1
 
 ![alt text](miscellaneous/image.png) ![alt text](miscellaneous/image-1.png)
-
-Wxh * x => 64x42 * 42x1 = <p style="color: dodgerblue;">64x1</p>
-Whh * hs[t-1] => 64x64 * 64x1 = <p style="color: dodgerblue;">64x1</p>
-bh => <p style="color: dodgerblue;">64x1</p>
-<p style="color: dodgerblue;">matriz(64x1)</p> + <p style="color: dodgerblue;">matriz(64x1)</p> + <p style="color: dodgerblue;">matriz(64x1)</p> = <p style="color: dodgerblue;">matriz(64x1)</p>
-
+</br>
+Wxh * x => 64x42 * 42x1 = 64x1</br>
+Whh * hs[t-1] => 64x64 * 64x1 = 64x1</br>
+bh => 64x1</br>
+matriz(64x1) + matriz(64x1) + matriz(64x1) = matriz(64x1)</br>
+</br>
 A ese resultado es al que se le aplicará la funcion tanh (tangente hiperbolica)
 
 Forward entonces retorna xs hs y ys.
@@ -131,4 +131,36 @@ Luego se multiplica la tercer matriz de pesos Why con este estado nuevo (hs[t]) 
 
 Forward entonces retorna xs hs y ys.
 
-continuara...
+<h2>Compute Loss</h2>
+
+Luego de procesar el Forward pasamos ys y targets:
+
+    xs, hs, ys = forward(inputs, h_prev)
+    loss = compute_loss(ys, targets)
+
+Recordemos que targets, es al igual que inputs, una seleccion de 10 valores tomados de data (seq_length=10), sin embargo targets desplaza en uno el indice de los datos tomados
+
+    inputs = data[pointer:pointer+seq_length]
+    targets = data[pointer+1:pointer+seq_length+1]
+
+Y recordemos que ys es el la capa de salida. La primer capa de pesos fue multiplicada por el hot-one correspondiente, y sumada a la segunda capa multiplicada por el estado anterior al actual mas su bias. Al resultado de lo anterior, se lo multiplica por el estado actual y se le suma otro bias, resultando en ys.
+
+    def compute_loss(ys, targets):
+        loss = 0
+        for t in range(len(targets)):
+            ps = softmax(ys[t])
+            loss += -np.log(ps[targets[t], 0])
+        return loss / len(targets)
+
+Tantas veces como valoers existan en target aplicaremos softmax a ys:
+
+    def softmax(v):
+        expv = np.exp(v - np.max(v))
+        return expv / np.sum(expv)
+    
+![alt text](miscellaneous/image-3.png)
+
+![alt text](miscellaneous/image-4.png)
+
+Como se ve en la grafica de la curva. Softmax toma valores y los aplana entre 0 y 1, dando mejor colocación tanto a valores negativos como positivos.
+
