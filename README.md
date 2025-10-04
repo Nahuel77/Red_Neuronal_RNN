@@ -80,3 +80,51 @@ Tomamos a inputs y a h_prev y lo metemos a la funcion forward, la que nos retorn
 
 <h2>Forward</h2>
 
+Declaramos tres diccionarios vacios, xs, hs, ys. Y guardamos h_prev en un estado previo de hs.
+
+    xs, hs, ys = {}, {}, {}
+    hs[-1] = np.copy(h_prev)
+
+Declara el indise de hs en [-1] es una facilidad que Python nos da. Y basicamente coloca al final de una fila un valor asignado.
+Tenemos un bucle for t in range(len(inputs)) que contará hasta 10. Recordemos que inputs son muestras de data, tomadas de 10 en 10.
+Dentro declaramos un array "x" de ceros de 42*1 (el tamaño de la coleccion de caracteres sin repetir del dataset).
+
+    for t in range(len(inputs)): # 0 a 10
+        x = np.zeros((vocab_size, 1)) #42*1
+        x[inputs[t]] = 1
+
+Y x[inputs[t]] hará un hot-encoding de la muestra de inputs recibida.
+Si inputs era por ejemplo: [3, 12, 9, 4, 0, 10, 17, 11, 6, 12, 2], en t=0 inputs[t] será 3 y por lo tanto x=inputs[t]=[0, 0, 0, 1, ... 0, 0, 0] (42 valores). y Ese array ira a guardarse a una matriz llamada xs formando el array de one-hot
+
+    xs[t] = x
+
+El siguiente paso es guardar el nuevo estado en hs[t], calculandolo con la función Tangente Hiperbolica, para aplanar los valores entre -1 y 0. Como se observa en la curva que dibuja la función:
+
+![alt text](miscellaneous/image-2.png)
+
+Se sumaran la multiplicacion de Wxh con x, de Whh con hs[-1] y se le sumaran el bias bh.
+
+    (np.dot(Wxh, x) + np.dot(Whh, hs[t-1]) + bh)
+
+Sabemos por las reglas de multiplicacion de matrices que la salida de estas suma sera otra matriz de 64x1
+
+![alt text](image.png) ![alt text](image-1.png)
+
+matriz(64x1) + matriz(64x1) + matriz(64x1) = matriz(64x1)
+A ese resultado es al que se le aplicará la funcion tanh (tangente hiperbolica)
+
+Forward entonces retorna xs hs y ys.
+
+Esto, lo vimos ya en la red MLP, pero aqui se agrega un elemento.
+Una de las matrices de pesos (Wxh) se multiplica con el one-hot correspondiente al ciclo. Eso es igual en la red MLP.
+Pero aqui tomamos otra matriz de pesos (Whh) se multiplica con el estado anteior h[t-1] (Esta es la parte en que podriamos decir que "recuerda").
+Luego se suma al bias, como tambien era en la red MLP. (np.dot(Wxh, x) + np.dot(Whh, hs[t-1]) + bh).
+El resultado obtenido es el estado nuevo hs[t].
+
+Luego se multiplica la tercer matriz de pesos Why con este estado nuevo (hs[t]) y se suma el ultimo peso by.
+
+    ys[t] = np.dot(Why, hs[t]) + by
+
+Forward entonces retorna xs hs y ys.
+
+continuara...
