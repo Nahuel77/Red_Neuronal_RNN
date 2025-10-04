@@ -164,3 +164,38 @@ Tantas veces como valoers existan en target aplicaremos softmax a ys:
 
 Como se ve en la grafica de la curva. Softmax toma valores y los aplana entre 0 y 1, dando mejor colocación tanto a valores negativos como positivos.
 
+    ps = softmax(ys[t])
+
+ys es un diccionario de 10 elemento y cada elemento un array de 42 valores. A cada valor se le resta el maximo de ese mismo array y se coloca como exponente del numero e con np.exp
+
+    expv = np.exp(v - np.max(v))
+
+Si por ejempo v fuera [1.3499, 8.1662, 4.4817, 2.0137], observalos que 8.1662 se el valor maximo. Restamos ese valor a cada valor y obtenemos:
+
+    [1.3499-8.1662, 8.1662-8.1662, 4.4817-8.1662, 2.0137-8.1662] =
+    [−6.8163, 0.0, −3.6845, −6.1525]
+    np.exp([−6.8163,0.0,−3.6845,−6.1525])
+    [e^−6.8163, e^0.0, e^−3.6845, e^−6.1525]
+
+Luego retornamos cada valor de ese array, dividido por la sumatoria de los elementos de ese mismo array.
+
+    return expv / np.sum(expv)
+
+Entonces ps es un vector con los valores de ys pasados por softmax. a ese array le aplicamos el np.log en el indice targets[t]. Y ese valor lo pasamos a negativo.
+
+    ps = softmax(ys[t])
+    loss += -np.log(ps[targets[t], 0])
+
+Esos valores se acumulan en loss. Y se retornan dividiendolos por len(targets) que es 10
+
+    return loss / len(targets)
+
+Loss no es parte de la estructura funcional de la red. Pero nos permite obtener mediciones sobre como va aprendiendo la red.
+Estos valores se muestran cada 100 ciclos de entrenamiento mas tarde:
+
+    if epoch % 100 == 0:
+        print(f"Epoch {epoch}, loss: {loss:.4f}")
+
+<h2>Backguard y actualización de pesos</h2>
+
+Continuara...
