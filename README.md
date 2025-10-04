@@ -108,7 +108,7 @@ Se sumaran la multiplicacion de Wxh con x, de Whh con hs[-1] y se le sumaran el 
 
 Sabemos por las reglas de multiplicacion de matrices que la salida de estas suma sera otra matriz de 64x1
 
-![alt text](image.png) ![alt text](image-1.png)
+![alt text](miscellaneous/image.png) ![alt text](miscellaneous/image-1.png)
 
 matriz(64x1) + matriz(64x1) + matriz(64x1) = matriz(64x1)
 A ese resultado es al que se le aplicará la funcion tanh (tangente hiperbolica)
