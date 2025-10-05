@@ -170,7 +170,7 @@ ys es un diccionario de 10 elemento y cada elemento un array de 42 valores. A ca
 
     expv = np.exp(v - np.max(v))
 
-Si por ejempo v fuera [1.3499, 8.1662, 4.4817, 2.0137], observalos que 8.1662 se el valor maximo. Restamos ese valor a cada valor y obtenemos:
+Si por ejempo v fuera [1.3499, 8.1662, 4.4817, 2.0137], observamos que 8.1662 es el valor máximo. Restamos 8.1662 a cada valor y obtenemos:
 
     [1.3499-8.1662, 8.1662-8.1662, 4.4817-8.1662, 2.0137-8.1662] =
     [−6.8163, 0.0, −3.6845, −6.1525]
@@ -196,6 +196,56 @@ Estos valores se muestran cada 100 ciclos de entrenamiento mas tarde:
     if epoch % 100 == 0:
         print(f"Epoch {epoch}, loss: {loss:.4f}")
 
-<h2>Backguard y actualización de pesos</h2>
+<h2>Backward y actualización de pesos</h2>
 
-Continuara...
+En nuesta función de entrenamiento, luego de calcular la perdida pro epoch, sigue la retropropagación:
+
+    dWxh, dWhh, dWhy, dbh, dby = backward(xs, hs, ys, targets)
+
+Como se ve, es llamada con cinco variables (dWxh, dWhh, dWhy, dbh, dby), y se les pasa cuatro parametros (xs, hs, ys, targets).
+
+Dentro de la funcion se inicializan dWxh, dWhh y dWhy, que son matrices del tamaño de los pesos Wxh, Whh y Why, inicializadas completamente con ceros. Lo mismo para dbh y dby que son de tamaño bh y by, y lo mismo para dh_next, que copia el tamaño de hs[0], tambien inicializada con ceros.
+
+    dWxh, dWhh, dWhy = np.zeros_like(Wxh), np.zeros_like(Whh), np.zeros_like(Why)
+    dbh, dby = np.zeros_like(bh), np.zeros_like(by)
+    dh_next = np.zeros_like(hs[0])
+
+Se inicia un bucle for que contara en reversa desde 10 hasta 0 y se aplica softmax a ys[t]
+Luego en la posicion targets[t] de ys se resta 1. Desplazando asi la curvade softmax a numeros entre -1 y 0.
+
+    dy = softmax(ys[t])
+    dy[targets[t]] -= 1
+
+![alt text](miscellaneous/image.png)
+
+Aunque parezca magia. Esa es la gradiente para dy.
+Repasando, ys[t] es un vector de logits de tamaño (vocab_size, 1). Con logits nos referimos a un vector de valores que aun no son probabilidades, sino lo que la red piensa que es cada clase correcta.
+Al ys[t] por softmax se convierten en probabilidades (la suma de los vectores resulta en 1).
+
+Target[t] es el array que contiene el indice el caracter correcto. En nuestro codigo no creamos nuevamente el one-hot, sino que ya obteniendo el indice por target[t] restamos 1 en ese indice
+
+    dy[targets[t]] -= 1
+
+Ejemplo con un logits reducido:
+
+    dy = [0.62, 0.23, 0.05, 0.10]
+    targets[t] = 2
+    dy[targets[t]] -= 1
+    dy = [0.62, 0.23, -0.95, 0.10]
+
+Con el gradiente negativo, ajustará la entrada target[t] para aumentar su probabilidad.
+Con las entradas que no son target[t] se ajustará para disminuir la probabilidad, ya que los gradientes son positivos.
+Luego tenemos:
+
+    dWhy += np.dot(dy, hs[t].T)
+
+dy, la gradiente respecto a ys[t] tiene un tamaño vocab_size*1 (42x1). hs[t] es la salida de la capa oculta y tiene un tamaño hidden_size*1 (64x1). Por lo que la transpuesta de hs[t], ht[t].T tiene un tamaño 1*hidden_size (1x64).
+Por lo que multiplicandolas (42x1)*(1x64) obtenemos una matriz de 42*64, mismo tamaño que los pesos Why.
+
+Por que los multiplicamos? dy nos dice que tan fuerte debe ser el cambio en la salida especifica y hs[t].T propaga el cambio a cada conexion de la capa oculta.
+dWhy se usará para ajustar los pesos de Why.
+
+En tanto a la actualización de los bias. Se les suma la gradiente.
+
+    dby += dy
+
