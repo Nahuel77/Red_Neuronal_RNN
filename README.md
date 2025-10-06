@@ -249,3 +249,9 @@ En tanto a la actualización de los bias. Se les suma la gradiente.
 
     dby += dy
 
+Proseguimos propagando la gradiente con la capa oculta Why:
+
+    dh = np.dot(Why.T, dy) + dh_next
+    dh_raw = (1- hs[t] ** 2)*dh
+
+continuara...
