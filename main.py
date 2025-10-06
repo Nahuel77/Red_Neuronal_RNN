@@ -63,7 +63,7 @@ def backward(xs, hs, ys, targets):
         dy[targets[t]] -= 1
         dWhy += np.dot(dy, hs[t].T)
         dby += dy
-        dh = np.dot(Why.T, dy) + dh_next
+        dh = np.dot(Why.T, dy) + dh_next #64x1
         dh_raw = (1- hs[t] ** 2)*dh
         dbh += dh_raw
         dWxh += np.dot(dh_raw, xs[t].T)

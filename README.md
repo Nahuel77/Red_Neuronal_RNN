@@ -239,8 +239,8 @@ Luego tenemos:
 
     dWhy += np.dot(dy, hs[t].T)
 
-dy, la gradiente respecto a ys[t] tiene un tamaño vocab_size*1 (42x1). hs[t] es la salida de la capa oculta y tiene un tamaño hidden_size*1 (64x1). Por lo que la transpuesta de hs[t], ht[t].T tiene un tamaño 1*hidden_size (1x64).
-Por lo que multiplicandolas (42x1)*(1x64) obtenemos una matriz de 42*64, mismo tamaño que los pesos Why.
+dy, la gradiente respecto a ys[t] tiene un tamaño vocab_size^1 (42x1). hs[t] es la salida de la capa oculta y tiene un tamaño hidden_size^1 (64x1). Por lo que la transpuesta de hs[t], ht[t].T tiene un tamaño 1^hidden_size (1x64).
+Por lo que multiplicandolas (42x1)^(1x64) obtenemos una matriz de 42^64, mismo tamaño que los pesos Why.
 
 Por que los multiplicamos? dy nos dice que tan fuerte debe ser el cambio en la salida especifica y hs[t].T propaga el cambio a cada conexion de la capa oculta.
 dWhy se usará para ajustar los pesos de Why.
@@ -254,4 +254,21 @@ Proseguimos propagando la gradiente con la capa oculta Why:
     dh = np.dot(Why.T, dy) + dh_next
     dh_raw = (1- hs[t] ** 2)*dh
 
-continuara...
+Aqui dh_raw es otra derivada. No lo parece? yo igual me rompí la cabeza para verlo. Pero aqui una explicación (o intento de una).
+Estamos multiplicando la transpuesta de Why con dy np.dot(Why.T, dy). Como dijismos antes, dy es la gradiente, es decir la derivada parcial de ys. La propagamos por Why.T y le sumamos dh_next que por el momento, solo diremos que es una gradiente que viene desde el futuro (la vemos mas atentamente adelante).
+Ahora si miramos bien, d_hraw está igualada a algo que se ve como la derivada de tangente hiperbolica.
+Pues no se parece, lo es...
+
+![alt text](miscellaneous/tanh_derivada.png)
+
+Recordemos de donde viene hs[t]:
+
+    hs[t] = np.tanh(np.dot(Wxh, x) + np.dot(Whh, hs[t-1]) + bh)
+
+Es decir que hs[t]^2 es tanh^2(u).
+
+En este punto tengo que decir que tuve una confusión enorme, pues estaba esperando ver la derivada de la tangente hiperbolica por cadena, y asimilaba que dh era la derivada de...
+    (np.dot(Wxh, x) + np.dot(Whh, hs[t-1]) + bh), que es 'u' en hs[t] = tanh(u)
+Pero no. Se trabaja con la tanh pura.
+Pase dos días intentando calcular como una derivaba en otra y termine con el cerebro hecho puré.
+
