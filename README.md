@@ -326,9 +326,9 @@ También tengo que decir que ChatGPT me terminó explicando muchas veces lugares
 
 En el primer repo de redes neuronales expliqué MLP sin caer tanto en líneas de código, sino en conceptos. Pero ya en este fui más al código, pues vale la pena y si bien se mira, esta red tiene conceptos similares a MLP.
 
-Creo que si bien las redes actuales no se basan tanto en estas estructuras puntuales, vale la pena estudiarlas. Son hermosas. A medida que iba aprendiéndolas, no evitaba preguntarme por qué clase de mentes habrán ideado originalmente estas estructuras. Brillantes, sin dudas.
+Creo que si bien las redes actuales no se basan tanto en estas estructuras puntuales, vale la pena estudiarlas. Son hermosas. A medida que iba aprendiéndolas, no evitaba preguntarme qué clase de mentes habrán ideado originalmente estas estructuras. Brillantes, sin dudas.
 
-También creo que son una muestra ante la clásica pregunta de los programadores: "¿Es necesario saber matemáticas para programar?"
+También creo que son una respuesta a la clásica pregunta de los programadores: "¿Es necesario saber matemáticas para programar?"
 No sé si sea necesario o no. Pero admiremos este trabajo, que es una muestra de lo que se puede crear cuando sabes matemáticas (englobo en las matemáticas a las estadísticas, el álgebra, etc. Disculpen por ese vicio mío).
 
 Con esta red en especial, me pareció que aprenderlas es casi imposible; entenderlas, en cambio, sí se puede.
@@ -338,3 +338,6 @@ Sin embargo, son estas mismas tecnologías las que nos brindaron el vibe coding.
 Hacía mucho no me entusiasmaba estudiando un tema en particular. Quizás nadie más que yo lea esto. Pero si alguien lo lee, ojalá logre conseguir el mismo entusiasmo.
 
 ¡Saludos!
+
+https://github.com/Nahuel77/Red_Neuronal_MLP
+https://github.com/Nahuel77/Red_Neuronal_CNN
