@@ -254,7 +254,7 @@ Proseguimos propagando la gradiente con la capa oculta Why:
     dh = np.dot(Why.T, dy) + dh_next
     dh_raw = (1- hs[t] ** 2)*dh
 
-Aqui dh_raw es otra derivada. No lo parece? yo igual me rompí la cabeza para verlo. Pero aqui una explicación (o intento de una).
+Aqui en dh_raw tenemos otra derivada. No lo parece? yo igual me rompí la cabeza para verlo. Pero aqui una explicación (o intento de una).
 Estamos multiplicando la transpuesta de Why con dy np.dot(Why.T, dy). Como dijismos antes, dy es la gradiente, es decir la derivada parcial de ys. La propagamos por Why.T y le sumamos dh_next que por el momento, solo diremos que es una gradiente que viene desde el futuro (la vemos mas atentamente adelante).
 Ahora si miramos bien, d_hraw está igualada a algo que se ve como la derivada de tangente hiperbolica.
 Pues no se parece, lo es...
@@ -267,8 +267,52 @@ Recordemos de donde viene hs[t]:
 
 Es decir que hs[t]^2 es tanh^2(u).
 
-En este punto tengo que decir que tuve una confusión enorme, pues estaba esperando ver la derivada de la tangente hiperbolica por cadena, y asimilaba que dh era la derivada de...
-    (np.dot(Wxh, x) + np.dot(Whh, hs[t-1]) + bh), que es 'u' en hs[t] = tanh(u)
-Pero no. Se trabaja con la tanh pura.
+En este punto tengo que decir que tuve una confusión enorme, y por eso digo que me rompí el coco para entender lo que pasaba hasta este punto. Pues estaba esperando ver la derivada de la tangente hiperbolica por cadena, y asimilaba que dh era la derivada de...
+
+    (np.dot(Wxh, x) + np.dot(Whh, hs[t-1]) + bh)
+    
+...era 'u' en hs[t] = tanh(u). Pero no. Se trabaja con la tanh pura.
 Pase dos días intentando calcular como una derivaba en otra y termine con el cerebro hecho puré.
+
+Lo que sucede realmente es que multiplicamos la derivada respecto a la salida de la capa oculta h con la gradiente de la salida y... Es decir la gradiente de la perdida total.
+dh_raw es la gradiente retropropagada a las capas h, pero aun sin calcular los cambios que debe hacer al los pesos.
+
+Se ajustan los bias h:
+
+    dbh += dh_raw
+
+Se calculan los ajustes que se haran a los pesos:
+
+    dWxh += np.dot(dh_raw, xs[t].T)
+    dWhh += np.dot(dh_raw, hs[t].T)
+
+Propagamos el gradiente hacia la capa que proviene del paso anterior en el tiempo:
+
+    dh_next = np.dot(Whh.T, dh_raw)
+
+<h3>Clipping de Gradientes</h3>
+
+    for dparam in [dWxh, dWhh, dWhy, dbh, dby]:
+        np.clip(dparam, -5, 5, out=dparam)
+
+El Clipping en la retropropagacion, es una tecnica de estabilización. Si un gradiente se propaga a travez de muchos pasos temporales, este puede volverse muy grande, o muy pequeño.
+Con np.clip se limitan los valores de los gradientes entre -5 y 5. Esto evita que el entrenamiento se rompa con valores tan grandes que la perdida se vuelve NaN (not a number).
+
+Finalmente retornamos los ajustes:
+
+    return dWxh, dWhh, dWhy, dbh, dby
+
+Se actualizan los pesos:
+
+    global Wxh, Whh, Why, bh, by
+    Wxh -= learning_rate * dWxh
+    Whh -= learning_rate * dWhh
+    Why -= learning_rate * dWhy
+    bh -= learning_rate * dbh
+    by -= learning_rate * dby
+
+Actualizo la capa previa y el pointer para el siguiente epoch:
+
+    h_prev = hs[len(inputs)-1]
+    pointer += seq_length
 

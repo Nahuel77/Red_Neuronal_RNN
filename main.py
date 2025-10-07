@@ -68,7 +68,7 @@ def backward(xs, hs, ys, targets):
         dbh += dh_raw
         dWxh += np.dot(dh_raw, xs[t].T)
         dWhh += np.dot(dh_raw, hs[t].T)
-        dh_next = np.dot(Whh.T, dh_raw) 
+        dh_next = np.dot(Whh.T, dh_raw)
         
     for dparam in [dWxh, dWhh, dWhy, dbh, dby]:
         np.clip(dparam, -5, 5, out=dparam)
