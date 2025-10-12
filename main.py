@@ -8,8 +8,6 @@ char2idx = {ch: i for i, ch in enumerate(chars)}
 idx2char = {i: ch for i, ch in enumerate(chars)}
 data = [char2idx[c] for c in text]
 
-print(len(data))
-
 vocab_size = len(chars)#42
 seq_lenght = 10
 hidden_size = 64
