@@ -2,6 +2,8 @@
 
 Tengo que decir que hacer un proyecto a la escala de un simple programador, en una simple computadora, que represente el potencial de una RNN, no es nada fácil. Quizás por la naturaleza del algoritmo RNN por sí mismo, es imposible.
 
+Este video https://youtu.be/hB4XYst_t-I?si=gSIDXG16x9ccce0Q me resultó bastante claro. Recomiendo verlo.
+
 Lo que hace esta red, me refiero a este proyecto toy, es muy simple para explicar lo que una RNN puede hacer.
 Aquí podemos dar una entrada de texto, como:
 
