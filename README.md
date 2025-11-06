@@ -410,5 +410,6 @@ Hacía mucho no me entusiasmaba estudiando un tema en particular. Quizás nadie 
 
 ¡Saludos!
 
-https://github.com/Nahuel77/Red_Neuronal_MLP
-https://github.com/Nahuel77/Red_Neuronal_CNN
+Redes anteriores:</br>
+https://github.com/Nahuel77/Red_Neuronal_MLP</br>
+https://github.com/Nahuel77/Red_Neuronal_CNN</br>
