@@ -15,6 +15,27 @@ y la red deberá darnos:
 
 Siendo la frase con la que se entrenó "Hola mundo, aprendiendo redes recurrentes!".
 ¿Hace falta una RNN para conseguir esto? Obvio que no. Por eso esta introducción.
+
+Ahora bien, cada uno de los caracteres de salida "do redes recurrentes!" son una salida. Es decir que a una entrada, no solo tendremos una salida, sino muchas asociadas a un momento de tiempo.
+
+Abreviemos nuestro dataset un momento para simplificar el ejemplo.
+"Hola Mundo". Una red entrenada con este dataset, estara preparada para saber como continua la cadena si le damos una entrada, X_t (X sub t) correspondiente a esta. Por ejemplo el caracter "a".
+
+Entonces la entrada "a" sera considerada como X_0 y la salida (Y_t: Y sub t) esperada Y_0 deberá ser un espacio " ".
+Ahora la red debe recordar de donde viene para saber a donde va. Dado que si en algun momento la entrada fuera una "o", como vemos, el dataset al tener dos "o", debe mirar de donde viene. Es por eso que se dice que una RNN recuerda.
+
+Las RNN analizan secuencias. Cada entrada X y cada salida Y esta asociada a un momento del tiempo de esa secuencia.
+
+X_0: "H", X_1: "o", X_2: "l", X_3: "a", X_4: " ", X_5: "M", X_6: "u", X_7: "n", X_8: "d", X_9: "o"
+
+Y_0: "o", Y_1: "l", Y_2: "a", Y_3: " ", Y_4: "M", Y_5: "u", Y_6: "n", Y_7: "d", Y_8: "o"
+
+La asociación entre las entradas y las salidas, se almacenan en una celula de estados A_t (A sub t) que en el codigo veremos como el estado previo hs[t] para cada momento, o h_prev como celula global.
+
+Cada vez que la RNN se active para inferir una salida, en realidad tendra dos entradas y dos salidas.
+
+A_(t-1) y X_t serán sus entradas y como salidas Y_t y A_t
+
 Aquí tenemos un dataset de 42 caracteres, 5 palabras. Pero aplicando esto mismo a cantidades ingentes de datos, podemos obtener, por ejemplo, un predictivo de texto.
 De hecho, así funcionaron los primeros predictivos.
 
