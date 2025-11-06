@@ -15,6 +15,7 @@ y la red deberá darnos:
 
 Siendo la frase con la que se entrenó "Hola mundo, aprendiendo redes recurrentes!".
 ¿Hace falta una RNN para conseguir esto? Obvio que no. Por eso esta introducción.
+No es lo que hace, sino como lo hace.
 
 Ahora bien, cada uno de los caracteres de salida "do redes recurrentes!" son una salida. Es decir que a una entrada, no solo tendremos una salida, sino muchas asociadas a un momento de tiempo.
 
@@ -30,7 +31,7 @@ X_0: "H", X_1: "o", X_2: "l", X_3: "a", X_4: " ", X_5: "M", X_6: "u", X_7: "n", 
 
 Y_0: "o", Y_1: "l", Y_2: "a", Y_3: " ", Y_4: "M", Y_5: "u", Y_6: "n", Y_7: "d", Y_8: "o"
 
-La asociación entre las entradas y las salidas, se almacenan en una celula de estados A_t (A sub t) que en el codigo veremos como el estado previo hs[t] para cada momento, o h_prev como celula global.
+La asociación entre las entradas y las salidas, se almacenan en una celula de estados A_t (A sub t) que en el codigo veremos como el estado previo hs[t] (hidden state) para cada momento.
 
 Cada vez que la RNN se active para inferir una salida, en realidad tendra dos entradas y dos salidas.
 
@@ -345,28 +346,42 @@ Recomiendo visualizar este video https://www.youtube.com/watch?v=1BubAvTVBYs
 
 LSTM resuelve un problema de las RNN. Cuando la memoria es extendida, a largo plazo, los coheficiente que actualizan los pesos o bien pueden dispararse a valores enormes, o aplanarse a infinitesimos. Lo que hace que la red termine aprendiendo nada.
 
-Con LSTM se soluciona filtrando lo que la red debe recordar o debe olvidar. Y lo valioso para aprender aqui es el concepto de usar redes segmentadas como compuertas. Es algo que si comprendemos, nos permitirá avanzar para aprender otro tipo de redes.
+Con LSTM se soluciona filtrando lo que la red debe recordar o debe olvidar. Y lo valioso para aprender aqui es el concepto de usar redes segmentadas como compuertas.
 
-Conceptualmente una RNN, es una red neuronal que aprende secuencias y las recuerda.
-Es decir que no tiene una unica salida. Sino una secuencia de salidas.
+![alt text](miscellaneous/me.webp)
+
+Es algo que si comprendemos, nos permitirá avanzar para aprender otro tipo de redes.
+
+Como se explica al inicio de este README, conceptualmente una RNN, es una red neuronal que aprende secuencias y las recuerda.
+Es decir que no tiene una unica salida. Sino una secuencia de salidas asociadas a un momento del tiempo de una secuencia.
 
 En nuestro ejemplo, "Hola mundo" podia ser un dataset, y al darle como entrada la "a" como token, la red deberia inferir que sigue un espacio, " ", luego la "m", la "u", la "n"... etc..
 
-Si la entrada fue la "a" podemos tomar ese token como una entrada Xt (X sub t) donde t es la ubicación en el tiempo de la secuencia.
-X0 (X sub cero) es nuestra entrada inicial, y esta entrada dara la primer salida Y0, que será el espacio " ".
-X1 = Y0, es decir que el siguiente token es " " y su salida será la "m" y ahora X2="m". Así sucesivamente.
-
-Pero al nivel funcional de la red, se debe tener una memoria, para recordar que venia antes y saber que sigue. Para eso tenemos el estado previo de memoria A.
-
-Entonces conceptualmente una RNN tiene 2 entradas y 2 salidas. entra el estado previo At-1 y el token X y sale Y el nuevo estado prvio At
+Como dije antes una RNN tiene 2 entradas y 2 salidas. entra el estado previo A_(t-1), el token X_t y sale Y_t y el nuevo estado prvio A_t
 
 LSTM agrega compuertas para filtrar que recordar, que olvidar y que filtrar al estado oculto.
 
+Pero si estudiamos el codigo, vemos que tales compuertas no es mas que la manera de estructurar los pesos, y como trabajamos los datos procesados con operaciones matematicas.
+
 Estas compuertas son simplemente transformaciones lineales de la entrada o entre estas mismas compuertas.
 
-Por ejemplo, podemos hacer una transformación lineal de la entrada sobre una matriz de pesos que sera filtrada con una sigmoide y se multiplicara al una nueva celda Ct (Cellstate sub t)
+    #Puerta de olvido (forget gate)
+    Wf, Uf, bf = rand_params()
+    #Puerta de entrada (input gate)
+    Wi, Ui, bi = rand_params()
+    #Puerta candidata (cell candidate)
+    Wo, Uo, bo = rand_params()
+    #Puerta de salida (output gate)
+    Wc, Uc, bc = rand_params()
 
-Entonces LSTM tiene 3 entradas Xt, At-1 y Ct-1. Y 3 salidas Yt, At y Ct.
+LSTM  agrega una nueva celda llamada Celda de estados, cs[t].
+Recordemos que aunque conceptualmente hablamos de memoria, trabajamos con valores almacenados en matrices. Donde cada fila de esta matriz es el estado de un tiempo.
+
+Los valores almacenados en cs, interactuan con las compuertas, y finalmente recaen en output. Esto permite que la celda de estados retenga o olvide datos y aplique esas desiciones en el output.
+
+Por ejemplo, podemos hacer una transformación lineal de la entrada sobre una matriz de pesos que sera filtrada con una sigmoide y se multiplicara al una nueva celda C_t (Cellstate sub t), en el codigo cs[t]
+
+Entonces LSTM tiene 3 entradas X_t, A_(t-1) y C_(t-1). Y 3 salidas Y_t, A_t y C_t.
 
 Las matrices de pesos entonces ya no solo hacen transformaciones lineales o cruzadas. Sino que interactuan multiplicandose o sumandose para funcionar como compuertas que hacen que la red olvide información, o retenga otra y se actualice de modo que no colapse o se duerma.
 
