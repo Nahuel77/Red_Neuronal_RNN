@@ -1,4 +1,5 @@
 <h1>RNN: Recurrent Neural Network</h1>
+<h2>LSTM Incluido al final</h2>
 
 Tengo que decir que hacer un proyecto a la escala de un simple programador, en una simple computadora, que represente el potencial de una RNN, no es nada fácil. Quizás por la naturaleza del algoritmo RNN por sí mismo, es imposible.
 
