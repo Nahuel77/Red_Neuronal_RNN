@@ -345,6 +345,10 @@ Estas compuertas son simplemente transformaciones lineales de la entrada o entre
 
 Por ejemplo, podemos hacer una transformación lineal de la entrada sobre una matriz de pesos que sera filtrada con una sigmoide y se multiplicara al una nueva celda Ct (Cellstate sub t)
 
+Entonces LSTM tiene 3 entradas Xt, At-1 y Ct-1. Y 3 salidas Yt, At y Ct.
+
+Las matrices de pesos entonces ya no solo hacen transformaciones lineales o cruzadas. Sino que interactuan multiplicandose o sumandose para funcionar como compuertas que hacen que la red olvide información, o retenga otra y se actualice de modo que no colapse o se duerma.
+
 <h2>Cierre.</h2>
 
 Hasta aquí he explicado paso a paso el algoritmo, y si me salteé algo es porque realmente no era relevante al funcionamiento.
