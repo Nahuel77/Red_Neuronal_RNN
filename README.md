@@ -318,6 +318,33 @@ Actualizo la capa previa y el pointer para el siguiente epoch:
     h_prev = hs[len(inputs)-1]
     pointer += seq_length
 
+<h2>LSTM</h2>
+
+Recomiendo visualizar este video https://www.youtube.com/watch?v=1BubAvTVBYs
+
+LSTM resuelve un problema de las RNN. Cuando la memoria es extendida, a largo plazo, los coheficiente que actualizan los pesos o bien pueden dispararse a valores enormes, o aplanarse a infinitesimos. Lo que hace que la red termine aprendiendo nada.
+
+Con LSTM se soluciona filtrando lo que la red debe recordar o debe olvidar. Y lo valioso para aprender aqui es el concepto de usar redes segmentadas como compuertas. Es algo que si comprendemos, nos permitirá avanzar para aprender otro tipo de redes.
+
+Conceptualmente una RNN, es una red neuronal que aprende secuencias y las recuerda.
+Es decir que no tiene una unica salida. Sino una secuencia de salidas.
+
+En nuestro ejemplo, "Hola mundo" podia ser un dataset, y al darle como entrada la "a" como token, la red deberia inferir que sigue un espacio, " ", luego la "m", la "u", la "n"... etc..
+
+Si la entrada fue la "a" podemos tomar ese token como una entrada Xt (X sub t) donde t es la ubicación en el tiempo de la secuencia.
+X0 (X sub cero) es nuestra entrada inicial, y esta entrada dara la primer salida Y0, que será el espacio " ".
+X1 = Y0, es decir que el siguiente token es " " y su salida será la "m" y ahora X2="m". Así sucesivamente.
+
+Pero al nivel funcional de la red, se debe tener una memoria, para recordar que venia antes y saber que sigue. Para eso tenemos el estado previo de memoria A.
+
+Entonces conceptualmente una RNN tiene 2 entradas y 2 salidas. entra el estado previo At-1 y el token X y sale Y el nuevo estado prvio At
+
+LSTM agrega compuertas para filtrar que recordar, que olvidar y que filtrar al estado oculto.
+
+Estas compuertas son simplemente transformaciones lineales de la entrada o entre estas mismas compuertas.
+
+Por ejemplo, podemos hacer una transformación lineal de la entrada sobre una matriz de pesos que sera filtrada con una sigmoide y se multiplicara al una nueva celda Ct (Cellstate sub t)
+
 <h2>Cierre.</h2>
 
 Hasta aquí he explicado paso a paso el algoritmo, y si me salteé algo es porque realmente no era relevante al funcionamiento.
