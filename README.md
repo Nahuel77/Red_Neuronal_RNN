@@ -346,7 +346,7 @@ Recomiendo visualizar este video https://www.youtube.com/watch?v=1BubAvTVBYs
 
 LSTM resuelve un problema de las RNN. Cuando la memoria es extendida, a largo plazo, los coheficiente que actualizan los pesos o bien pueden dispararse a valores enormes, o aplanarse a infinitesimos. Lo que hace que la red termine aprendiendo nada.
 
-Con LSTM se soluciona filtrando lo que la red debe recordar o debe olvidar. Y lo valioso para aprender aqui es el concepto de usar redes segmentadas como compuertas.
+Con LSTM se soluciona filtrando lo que la red debe recordar o debe olvidar. Y lo valioso para aprender aqui es el concepto de usar pesos y sus transformaciones lineales, segmentadamente, como compuertas.
 
 ![alt text](miscellaneous/me.webp)
 
@@ -379,7 +379,7 @@ Recordemos que aunque conceptualmente hablamos de memoria, trabajamos con valore
 
 Los valores almacenados en cs, interactuan con las compuertas, y finalmente recaen en output. Esto permite que la celda de estados retenga o olvide datos y aplique esas desiciones en el output.
 
-Por ejemplo, podemos hacer una transformación lineal de la entrada sobre una matriz de pesos que sera filtrada con una sigmoide y se multiplicara al una nueva celda C_t (Cellstate sub t), en el codigo cs[t]
+Por ejemplo, podemos hacer una transformación lineal de la entrada sobre una matriz de pesos que sera filtrada con una sigmoide y se multiplicara al una nueva celda C_t (Cellstate sub t), en el codigo cs[t].
 
 Entonces LSTM tiene 3 entradas X_t, A_(t-1) y C_(t-1). Y 3 salidas Y_t, A_t y C_t.
 
