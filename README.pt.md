@@ -408,7 +408,6 @@ Fazia muito tempo que não me empolgava estudando um tema em particular. Talvez 
 
 Saudações!
 
-Redes anteriores:
-
-MLP: https://github.com/Nahuel77/Red_Neuronal_MLP</br>
-RNN y LSTM: https://github.com/Nahuel77/Red_Neuronal_RNN_LSTM_incluido
+Redes anteriores:</br>
+https://github.com/Nahuel77/Red_Neuronal_MLP</br>
+https://github.com/Nahuel77/Red_Neuronal_CNN</br>
