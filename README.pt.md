@@ -392,4 +392,23 @@ Mas realmente acredito que não poderei dar melhor explicação que no vídeo re
 
 Até aqui expliquei passo a passo o algoritmo, e se pulei algo é porque realmente não era relevante ao funcionamento.
 
-Peço desculpas se tive erros ortográficos;...
+Peço desculpas se tive erros ortográficos; tentei explicar tudo da maneira mais simples possível, em uma linguagem que não se torne puramente técnica.
+
+Também preciso dizer que o ChatGPT acabou me explicando várias vezes pontos nos quais eu travava e não conseguiria avançar sozinho. É uma ótima ferramenta de aprendizado.
+
+No primeiro repositório de redes neurais, expliquei o MLP sem me aprofundar tanto em linhas de código, mas sim nos conceitos. Mas neste, fui mais para o código, pois vale a pena, e embora se perceba, essa rede possui conceitos semelhantes ao MLP.
+
+Acredito que, embora as redes atuais não se baseiem tanto nessas estruturas pontuais, vale a pena estudá-las. São lindas. À medida que eu as aprendia, não deixava de me perguntar que tipo de mentes teriam idealizado originalmente essas estruturas. Brilhantes, sem dúvidas.
+
+Também penso que elas são uma resposta à clássica pergunta dos programadores: "É necessário saber matemática para programar?" Não sei se é necessário ou não. Mas admiramos este trabalho, que é uma amostra do que se pode criar quando se sabe matemática (englobando nesta matemática estatística, álgebra, etc. Desculpem esse meu vício).
+
+Com esta rede em especial, me pareceu que aprendê-la é quase impossível; entendê-la, por outro lado, é possível. Mas duvido que a maioria das pessoas no mundo consiga programar uma rede neural do zero sem nenhuma ajuda, seja ChatGPT, seja anotações em um caderno, etc. São muitos passos e detalhes que é preciso conhecer muito bem para tê-los todos na cabeça. No entanto, são essas mesmas tecnologias que nos proporcionaram o vibe coding. Não sei exatamente o quê, mas deve haver alguma moral, parábola ou aprendizado nisso.
+
+Fazia muito tempo que não me empolgava estudando um tema em particular. Talvez ninguém além de mim leia isso. Mas se alguém ler, espero que consiga alcançar o mesmo entusiasmo.
+
+Saudações!
+
+Redes anteriores:
+
+MLP: https://github.com/Nahuel77/Red_Neuronal_MLP
+RNN y LSTM: https://github.com/Nahuel77/Red_Neuronal_RNN_LSTM_incluido
