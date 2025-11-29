@@ -395,4 +395,33 @@ For example, we can perform a linear transformation of the input over a matrix o
 
 So LSTM has 3 inputs: X_t, A_(t-1), and C_(t-1). And 3 outputs: Y_t, A_t, and C_t.
 
-The weight matrices therefore no longer only perform linear or cross transformations, but they also interact...
+The weight matrices then no longer just perform linear or cross transformations. Instead, they interact by multiplying or adding with each other to function like gates that make the network forget some information, retain other information, and update itself so that it doesn’t collapse or “fall asleep.”
+
+But honestly, I don’t think I can give a better explanation than in the recommended video.
+
+<h2>Conclusion</h2>
+
+Up to this point, I have explained the algorithm step by step, and if I skipped anything, it’s because it really wasn’t relevant to its functioning.
+
+I apologize if there are any spelling mistakes; I have tried to explain everything as simply as possible, in a language that doesn’t become purely technical.
+
+I also have to say that ChatGPT ended up explaining to me many times the points where I got stuck and wouldn’t have been able to advance on my own. It’s a great learning tool.
+
+In the first neural network repo, I explained MLP without going too much into lines of code, focusing instead on concepts. But in this one, I went more into the code, because it’s worth it, and even at a glance, this network has concepts similar to MLP.
+
+I think that even though current networks are not based so much on these specific structures, it’s worth studying them. They are beautiful. As I was learning them, I couldn’t help but wonder what kind of minds originally came up with these structures. Brilliant, without a doubt.
+
+I also think they are an answer to the classic programmer question: “Is it necessary to know math to program?”
+I don’t know whether it’s necessary or not. But let’s admire this work, which is a demonstration of what can be created when you know mathematics (I include statistics, algebra, etc. under “mathematics.” Sorry for that little quirk of mine).
+
+With this particular network, it seemed to me that learning it is almost impossible; understanding it, however, is possible.
+But I doubt that most people in the world could program a neural network from scratch without any help, whether ChatGPT, notes in a notebook, etc. There are too many steps and details to know well enough to have them all in your head.
+Yet, it’s these same technologies that gave us the vibe coding. I’m not exactly sure what it is, but there must be some moral, parable, or lesson in that.
+
+It’s been a long time since I felt this excited studying a particular topic. Maybe no one else will read this. But if someone does, I hope they can feel the same enthusiasm.
+
+Best regards!
+
+Previous networks:</br>
+https://github.com/Nahuel77/Red_Neuronal_MLP</br>
+https://github.com/Nahuel77/Red_Neuronal_CNN</br>
