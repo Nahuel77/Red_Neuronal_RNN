@@ -410,5 +410,5 @@ Saudações!
 
 Redes anteriores:
 
-MLP: https://github.com/Nahuel77/Red_Neuronal_MLP
+MLP: https://github.com/Nahuel77/Red_Neuronal_MLP</br>
 RNN y LSTM: https://github.com/Nahuel77/Red_Neuronal_RNN_LSTM_incluido
